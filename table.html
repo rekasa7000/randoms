@@ -1,6 +1,6 @@
 <!DOCTYPE HTML><html>
 <head>
-  <title>KLOUDTECH R6!!!!!!</title>
+  <title>RANDOM QUOTE OR SOMETHING LIKE THAT</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     html {font-family: Arial; 
@@ -84,7 +84,7 @@
 </head>
 <body>
   <div class="topnav">
-    <h1>Kloudtech R6</h1>
+    <h1>MOTIVATION AHAHAHHA</h1>
   </div>
   <div class="content">
     <!--<div class="cards">
@@ -182,9 +182,39 @@ function addRowToTable() {
   //extract time from the date
   var time = today.toLocaleTimeString();
   var current = mm + '/' + dd + '/' + yyyy;
-    
+
+  // QUOTES ACHUCHU
+  const quotes = [
+  "The only way to achieve the impossible is to believe it is possible.",
+  "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+  "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle.",
+  "The only limit to our realization of tomorrow is our doubts of today.",
+  "The only person you should try to be better than is the person you were yesterday.",
+  "Don't watch the clock; do what it does. Keep going.",
+  "Your time is limited, don't waste it living someone else's life.",
+  "In the middle of every difficulty lies opportunity.",
+  "Dream big and dare to fail.",
+  "You are never too old to set another goal or to dream a new dream.",
+  "The only thing standing between you and your goal is the story you keep telling yourself as to why you can't achieve it.",
+  "Success usually comes to those who are too busy to be looking for it.",
+  "The harder you work for something, the greater you'll feel when you achieve it.",
+  "Believe you can and you're halfway there.",
+  "The secret to getting ahead is getting started.",
+  "Opportunities don't happen, you create them.",
+  "The only thing that stands between you and your dream is the will to try and the belief that it is actually possible.",
+  "You are never too old to set another goal or to dream a new dream.",
+  "Don't be afraid to give up the good to go for the great.",
+  "A journey of a thousand miles begins with a single step.",
+];
+
+function printRandomQuote() {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  return quotes[randomIndex];
+}
+
+  // Display the Date, Quotes, and time
   cell1.innerHTML = current;
-  cell2.innerHTML = "sheeesh1";
+  cell2.innerHTML = printRandomQuote();
   cell3.innerHTML = time;
 
   table.scrollTop = table.scrollHeight;
