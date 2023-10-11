@@ -1,0 +1,237 @@
+<!DOCTYPE HTML><html>
+<head>
+  <title>KLOUDTECH R6!!!!!!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html {font-family: Arial; 
+      display: inline-block; 
+      text-align: center;}
+    p { 
+      font-size: 1.2rem;
+    }
+    body {  
+      margin: 0;
+    }
+
+
+    #download button {
+      margin: 10px;
+      border-radius: 50%;
+      padding: 20px;
+      background-color: #545454;
+      color: #FBD008;
+      font-size: 30px;
+    }
+
+    table, th, td {
+      margin: 0 auto; 
+      border: 1px solid #FBD008;
+      border-radius:  10px;
+    }
+
+    table {   
+      border-collapse:  collapse;   
+      width: 100%;
+      color: #FBD008;
+      
+    }
+    
+    th {
+      height: 30px;
+    }
+
+    .table-wrapper {
+      overflow: hidden;
+      overflow-y: scroll;
+      width: auto;
+      height: 735px;
+
+      /* REMOVE THIS FOR LATER */
+      background-color: #545454;
+      margin-left: 10%;
+      margin-right: 10%;
+      border-radius: 50px;
+    }
+
+    .topnav { 
+      overflow: hidden; 
+      background-color: #545454; 
+      color: #FBD008; 
+      font-size: 1rem; 
+    }
+    .content { 
+      padding: 20px; 
+      background-color: #FBD008;
+    }
+    /*.card { 
+      background-color: white; 
+      box-shadow: 2px 2px 12px 1px rgba(140,140,140,.5); 
+    }
+    .cards { 
+      max-width: 800px; 
+      margin: 0 auto; 
+      display: grid; 
+      grid-gap: 2rem; 
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    }*/
+    .reading { 
+      font-size: 1.4rem; 
+    }
+    .subtitle {
+      font-size: 0.8rem; 
+    }
+  </style>
+</head>
+<body>
+  <div class="topnav">
+    <h1>Kloudtech R6</h1>
+  </div>
+  <div class="content">
+    <!--<div class="cards">
+      <div class="card">
+        <p> TIME </p><p><span class="reading"><span id="DATE">%DATE%</span> </span></p>
+      </div>
+      <div class="card">
+        <p> SD CARD STATUS </p><p><span class="reading"><span id="sd">%SDCARDSTATUS%</span></span></p>
+      </div>
+      <div class="card">
+        <p> INSTANTANEOUS RAINFALL <br> <span class="subtitle">( starting from last recording ) </span> </p>
+        <p><span class="reading"><span id="rain">%RAINFALL%</span> mm</span></p>
+            
+        <p> LAST RECORDED RAINFALL </p>
+            <p><span class="reading"><span id="rrain">%RRAINFALL%</span> mm</span></p>
+      </div>      
+    </div>-->
+
+    <div class="table-wrapper">
+      <!--date, readings, timestamp slider, limit 5, scrollable --> 
+      <table id="main_table">
+        <tr>
+          <th>Date</th>
+          <th>Readings??!</th>
+          <th>Time</th>
+        </tr>
+        <!--
+        <tr>
+          <td><span id="disp_date">1</span></td>
+          <td><span id="disp_readings">2</span></td>
+          <td><span id="disp_time">3</span></td>
+        </tr>
+        -->
+      </table>      
+    </div>
+
+    <div id="download">
+      <button on-click="download(); change();">Download CSV</button>
+    </div>  
+  </div>
+<script>
+/*if (!!window.EventSource) {
+ var source = new EventSource('/events');
+ 
+ source.addEventListener('open', function(e) {
+  console.log("Events Connected");
+ }, false);
+ source.addEventListener('error', function(e) {
+  if (e.target.readyState != EventSource.OPEN) {
+    console.log("Events Disconnected");
+  }
+ }, false);
+ 
+ source.addEventListener('message', function(e) {
+  console.log("message", e.data);
+ }, false);
+ 
+
+  source.addEventListener('DATE', function(e) {
+  console.log("DATE", e.data);
+  document.getElementById("DATE").innerHTML = e.data;
+ }, false);
+
+  source.addEventListener('RAINFALL', function(e) {
+  console.log("RAINFALL", e.data);
+  document.getElementById("rain").innerHTML = e.data;
+ }, false);
+
+  source.addEventListener('RRAINFALL', function(e) {
+  console.log("RRAINFALL", e.data);
+  document.getElementById("rrain").innerHTML = e.data;
+ }, false);
+
+  source.addEventListener('SDCARDSTATUS', function(e) {
+  console.log("SDCARDSTATUS", e.data);
+  document.getElementById("sd").innerHTML = e.data;
+ }, false);
+}*/
+
+// ------------ THIS IS JUST AN EXAMPLE -----------
+// Automatically add a row every 5 seconds
+function addRowToTable() {
+  var table = document.getElementById("main_table");
+  var row = table.insertRow(-1);
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1);
+  var cell3 = row.insertCell(2);
+
+  //extract mm/dd/yyyy in Date
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0');
+  var yyyy = today.getFullYear();
+
+  //extract time from the date
+  var time = today.toLocaleTimeString();
+  var current = mm + '/' + dd + '/' + yyyy;
+    
+  cell1.innerHTML = current;
+  cell2.innerHTML = "sheeesh1";
+  cell3.innerHTML = time;
+
+  table.scrollTop = table.scrollHeight;
+}
+
+setInterval(addRowToTable, 2000);
+// END OF AUTOMATICALLY ADDING ROW
+
+// Download data of table to CSV
+const tableToCSV = table => {
+  const headers = Array.from(table.querySelectorAll('th'))
+    .map(item => item.innerText).join(',')
+
+  const rows = Array.from(table.querySelectorAll('tr'))
+    .reduce((arr, domRow) => {
+      if (domRow.querySelector('th')) return arr
+
+      const cells = Array.from(domRow.querySelectorAll('td'))
+        .map(item => item.innerText)
+        .join(',')
+
+      return arr.concat([cells])
+    }, [])
+
+  return headers + '\n' + rows.join('\n')
+}
+
+const downloadCSV = csv => {
+  const csvFile = new Blob([csv], { type: 'text/csv' })
+  const downloadLink =  document.createElement('a')
+
+  downloadLink.download = `CSV-${new Date().toDateString()}.csv`
+  downloadLink.href = window.URL.createObjectURL(csvFile)
+  downloadLink.style.display = 'none'
+  document.body.appendChild(downloadLink)
+
+  downloadLink.click()
+}
+
+document.querySelector('button').addEventListener('click', () => {
+  const table = document.querySelector('table')
+  const csv = tableToCSV(table)
+
+  return downloadCSV(csv)
+})
+// end Function
+
+</script>
+</body>
+</html>
